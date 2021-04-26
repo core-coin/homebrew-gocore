@@ -97,6 +97,7 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
   def resolve_asset_id
     print "asddddd"
     release_metadata = fetch_release_metadata
+    print release_metadata
     assets = release_metadata['assets'].select { |a| a["name"] == @filename }
     raise CurlDownloadStrategyError, "Asset file not found." if assets.empty?
 
