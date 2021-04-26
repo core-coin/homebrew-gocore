@@ -115,7 +115,8 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
   end
 
   def fetch_release_metadata
-    release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}"
+    release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/latest"
     GitHub::API.open_rest(release_url)
   end
 end
+
