@@ -85,7 +85,7 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
     uri = URI("https://api.github.com/repos/#{@owner}/#{@repo}/releases/assets/#{asset_id}")
     req = Net::HTTP::Get.new(uri)
     req['Accept'] = 'application/octet-stream'
-    req['Authorization'] = "token #{@github_token}"
+    req['Authorization'] = "tokenasdasd #{@github_token}"
 
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
       http.request(req)
