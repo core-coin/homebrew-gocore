@@ -32,7 +32,7 @@ class CustomGitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
 
   private
 
-  def _fetch(url:, resolved_url:)
+  def _fetch(url:, resolved_url:, timeout:)
     curl_download download_url, "--header", "Authorization: token #{@github_token}", to: temporary_path
   end
 
@@ -41,22 +41,8 @@ class CustomGitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
     unless @github_token
       raise CurlDownloadStrategyError, "Environmental variable HOMEBREW_GITHUB_API_TOKEN is required."
     end
-
-    validate_github_repository_access!
   end
 
-  def validate_github_repository_access!
-    # Test access to the repository
-    GitHub.repository(@owner, @repo)
-  rescue GitHub::HTTPNotFoundError
-    # We only handle HTTPNotFoundError here,
-    # becase AuthenticationFailedError is handled within util/github.
-    message = <<~EOS
-      HOMEBREW_GITHUB_API_TOKEN can not access the repository: #{@owner}/#{@repo}
-      This token may not have permission to access the repository or the url of formula may be incorrect.
-    EOS
-    raise CurlDownloadStrategyError, message
-  end
 end
 
 # GitHubPrivateRepositoryReleaseDownloadStrategy downloads tarballs from GitHub
@@ -85,7 +71,7 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
     uri = URI("https://api.github.com/repos/#{@owner}/#{@repo}/releases/assets/#{asset_id}")
     req = Net::HTTP::Get.new(uri)
     req['Accept'] = 'application/octet-stream'
-    req['Authorization'] = "tokenasdasd #{@github_token}"
+    req['Authorization'] = "token #{@github_token}"
 
     res = Net::HTTP.start(uri.hostname, uri.port, :use_ssl => uri.scheme == 'https') do |http|
       http.request(req)
@@ -96,10 +82,10 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
 
   private
 
-  def _fetch(url:, resolved_url:)
+  def _fetch(url:, resolved_url:, timeout:)
     # HTTP request header `Accept: application/octet-stream` is required.
     # Without this, the GitHub API will respond with metadata, not binary.
-    curl_download download_url, "--header", "Accept: application/octet-stream", to: temporary_path
+    curl_download download_url, "--header", "Accept: application/octet-stream", "--header", "Authorization: token #{@github_token}", to: temporary_path
   end
 
   def asset_id
@@ -108,14 +94,21 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
 
   def resolve_asset_id
     release_metadata = fetch_release_metadata
-    assets = release_metadata["assets"].select { |a| a["name"] == @filename }
+    assets = release_metadata['assets'].select { |a| a["name"] == @filename }
     raise CurlDownloadStrategyError, "Asset file not found." if assets.empty?
 
     assets.first["id"]
   end
 
   def fetch_release_metadata
-    release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}"
-    GitHub::API.open_rest(release_url)
+    release_url = URI("https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}")
+    req = Net::HTTP::Get.new(release_url)
+    #req['Accept'] = 'application/octet-stream'
+    req['Authorization'] = "token #{@github_token}"
+
+    res = Net::HTTP.start(release_url.hostname, release_url.port, :use_ssl => release_url.scheme == 'https') do |http|
+      http.request(req)
+    end
+    JSON.parse(res.body)
   end
 end
