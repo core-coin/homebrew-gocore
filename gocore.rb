@@ -6,7 +6,7 @@ require_relative "lib/custom_download_strategy"
 class Gocore< Formula
   desc "Official Golang implementation of the CORE protocol."
   homepage "https://coreblockchain.cc/"
-  url "https://github.com/core-coin/go-core/releases/download/v1.0.18-dev/v1.0.18-dev.tar.gz", :using => CustomGitHubPrivateRepositoryReleaseDownloadStrategy
+  url "https://github.com/core-coin/go-core/releases/download/v1.0.18-dev/v1.0.18-dev", :using => CustomGitHubPrivateRepositoryReleaseDownloadStrategy
   version "1.0.18-dev"
   sha256 "aedede9bcffe74858a8825dfaf8dfcaf8c2b39b528ad0911d51e96500ec01158"
   license "LGPL-3.0"
