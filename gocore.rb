@@ -19,7 +19,7 @@ class Gocore< Formula
     # Remove unrecognized options if warned by configure
     # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
     system "make", "all"
-    bin.install Dir["build/bin"]
+    bin.install "build/bin/gocore"
   end
 
   test do
