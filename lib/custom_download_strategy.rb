@@ -1,17 +1,13 @@
 require "download_strategy"
 
 # GitHubPrivateRepositoryDownloadStrategy downloads contents from GitHub
-# Private Repository.
-#
-#To use it, add
+# Private Repository. To use it, add
 # `:using => :github_private_repo` to the URL section of
 # your formula. This download strategy uses GitHub access tokens (in the
 # environment variables `HOMEBREW_GITHUB_API_TOKEN`) to sign the request.  This
 # strategy is suitable for corporate use just like S3DownloadStrategy, because
 # it lets you use a private GitHub repository for internal distribution.  It
 # works with public one, but in that case simply use CurlDownloadStrategy.
-# Borrowed from https://www.lessthanhero.io/post/homebrew-with-private-repo-releases/
-
 class CustomGitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
   require "utils/formatter"
   require "utils/github"
@@ -56,7 +52,7 @@ class CustomGitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
     # We only handle HTTPNotFoundError here,
     # becase AuthenticationFailedError is handled within util/github.
     message = <<~EOS
-    HOMEBREW_GITHUB_API_TOKEN can not access the repository: #{@owner}/#{@repo}
+      HOMEBREW_GITHUB_API_TOKEN can not access the repository: #{@owner}/#{@repo}
       This token may not have permission to access the repository or the url of formula may be incorrect.
     EOS
     raise CurlDownloadStrategyError, message
@@ -112,7 +108,6 @@ class CustomGitHubPrivateRepositoryReleaseDownloadStrategy < CustomGitHubPrivate
 
   def resolve_asset_id
     release_metadata = fetch_release_metadata
-    print @filename
     assets = release_metadata["assets"].select { |a| a["name"] == @filename }
     raise CurlDownloadStrategyError, "Asset file not found." if assets.empty?
 
