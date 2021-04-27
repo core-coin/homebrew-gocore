@@ -27,7 +27,7 @@ class CustomGitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
   end
 
   def download_url
-    "https://github.com/core-coin/go-core/archive/refs/tags/v1.0.18-dev.tar.gz"
+    "https://github.com/#{@owner}/#{@repo}/archive/refs/tags/#{@filepath}"
   end
 
   private
