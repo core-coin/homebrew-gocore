@@ -8,7 +8,7 @@ class Gocore< Formula
   desc "Official Golang implementation of the CORE protocol."
   homepage "https://coreblockchain.cc/"
   url "https://github.com/core-coin/go-core/v1.0.39-dev.tar.gz", :using => CustomGitHubPrivateRepositoryDownloadStrategy
-  version "1.0.18-dev"
+  version "1.0.39-dev"
   sha256 "aedede9bcffe74858a8825dfaf8dfcaf8c2b39b528ad0911d51e96500ec01158"
   license "LGPL-3.0"
 
