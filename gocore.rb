@@ -5,7 +5,7 @@ require_relative "lib/custom_download_strategy"
 
 class Gocore< Formula
   depends_on "go"
-  depends_on "gcc"
+  depends_on "clang"
   desc "Official Golang implementation of the CORE protocol."
   homepage "https://coreblockchain.cc/"
   url "https://github.com/core-coin/go-core/v1.0.39-dev.tar.gz", :using => CustomGitHubPrivateRepositoryDownloadStrategy
