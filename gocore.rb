@@ -12,7 +12,8 @@ class Gocore< Formula
   license "LGPL-3.0"
 
   # depends_on "cmake" => :build
-
+  depends_on "go@1.16"
+  
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
     # Remove unrecognized options if warned by configure
