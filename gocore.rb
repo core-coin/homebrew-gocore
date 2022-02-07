@@ -18,8 +18,4 @@ class Gocore< Formula
     system "make", "all"
     bin.install Dir["build/bin/*"]
   end
-
-  test do
-    system "go", "run", "build/ci.go", "test"
-  end
 end
