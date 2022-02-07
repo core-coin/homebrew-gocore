@@ -8,7 +8,7 @@ class Gocore< Formula
   homepage "https://coreblockchain.cc/"
   url "https://github.com/core-coin/go-core/v1.0.44-dev.tar.gz", :using => CustomGitHubPrivateRepositoryDownloadStrategy
   version "1.0.44-dev"
-  sha256 "940ad88e6e42c6ef0d2bde5f4c83075e0f7a3b8ff430c458a7d681d5be3127a5"
+  sha256 "bc0147190ef50b8c3207edea2f03504e844f9002420b43e2166e0d65fbf70e9a"
   license "LGPL-3.0"
 
   # depends_on "cmake" => :build
