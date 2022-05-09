@@ -1,7 +1,7 @@
 class Gocore< Formula
   desc "Official Golang implementation of the CORE protocol."
   homepage "https://coreblockchain.cc/"
-  url "https://github.com/core-coin/go-core/archive/refs/tags/v1.1.4.tar.gz",
+  url "https://github.com/core-coin/go-core/archive/refs/tags/v1.1.4.tar.gz"
   version "v1.1.4"
   sha256 "149c50ed8d03282bf9cddb3e146c9cfcf6dce0d709f3929d4d5adde586354e70"
   license "CORE License"
